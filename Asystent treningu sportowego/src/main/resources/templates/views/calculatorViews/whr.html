@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Calculator </title>
+</head>
+<body>
+
+<div layout:fragment="content" class="mySpace col-12 col-lg-10">
+
+    <div class="col-12 pt-3 pb-2 naglowek">
+        <h2><i>Kalkulator WHR</i></h2>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#calculatornavbar"
+                aria-controls="calculatornavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse navcalculator justify-content-md-center" id="calculatornavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/cal-bmi">BMI <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cal-bmr">BMR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/cal-bf">BF</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/cal-whr">WHR</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <article class=" p-3 articlecalculator">
+
+        <p>
+            O otyłości brzusznej świadczą wartości wskaźnika WHR:<br/>
+            równe lub wyższe 1,0 dla mężczyzn (lub obwodu talii powyżej 102 cm)<br/>
+            równe lub wyższe 0,85 dla kobiet (lub obwodu talii powyżej 88cm)<br/>
+            O otyłości typu pośladkowo-udowego czyli typu gruszka świadczą wartości WHR:<br/>
+            niższe od 1,0 dla mężczyzn<br/>
+            niższe od 0,85 dla kobiet<br/></p>
+    </article>
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="row">
+                    <form th:action="@{/cal-whr}" method="post" class="col-12">
+
+                        <ul class="col-12 gender-options text-center">
+                            <input checked id="man" type="radio" name="gender" value="male" required/>
+                            <label for="man">mężczyzna</label> &frasl;
+                            <input id="woman" type="radio" name="gender" value="female"/>
+                            <label for="woman">kobieta</label>
+                        </ul>
+
+
+                        Obwód talii <input type="number" class="col-12 form-control form-text" required
+                                           name="obwodpasa"/>
+                        Obwód bioder: <input type="number" class="col-12 form-control form-text " required
+                                             name="obbiodra"/>
+
+                        <input type="submit" class="col-6 float-right mt-2  btn btn-primary" value="Oblicz"/>
+                    </form>
+                    <div th:if="${suma!=null}">
+                        <h3 class="pt-3"> Twoje WHR to: <span class="sumcalc" th:text="${suma}"></span></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="row">
+                    <div class=" col-12 ">
+                        <img class="m-3 img-fluid" th:src="@{/css/img/iconscalculator/WHR.png}"/>
+                        <article class="aticlecalculator p-2">
+                            By obliczyć wartość WHR, należy najpierw zmierzyć obwód talii oraz bioder przy pomocy taśmy
+                            do pomiarów antropometrycznych, bądź metra krawieckiego. Należy zrobić to jak najdokładniej,
+                            by obliczenia były możliwie najbliższe prawdy. Stwierdzenie typu sylwetki oraz typu nadwagi
+                            jest kluczowe dla przygotowania diety.
+                            Sylwetka dzieli się na dwa typy i przedstawia to współczynnik WHR.
+                        </article>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

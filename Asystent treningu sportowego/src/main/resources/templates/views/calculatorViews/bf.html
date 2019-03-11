@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Calculator </title>
+</head>
+<body>
+
+<div layout:fragment="content" class="mySpace col-12 col-lg-10">
+
+
+    <div class="col-12 pt-3 pb-2 naglowek">
+        <h2><i>Kalkulator BF</i></h2>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#calculatornavbar"
+                aria-controls="calculatornavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navcalculator navbar-collapse justify-content-md-center" id="calculatornavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/cal-bmi">BMI <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cal-bmr">BMR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/cal-bf">BF</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/cal-whr">WHR</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="row">
+                    <form th:action="@{/cal-bf}" method="post" class="col-12">
+
+                        <ul class="col-12 gender-options text-center">
+                            <input checked id="man" type="radio" name="gender" value="male" required/>
+                            <label for="man">mężczyzna</label> &frasl;
+                            <input id="woman" type="radio" name="gender" value="female"/>
+                            <label for="woman">kobieta</label>
+                        </ul>
+
+                        Masa: <input type="number" class="col-12 form-control form-text " placeholder="(kg)" required
+                                     name="masa"/>
+                        Obwód tali: <input type="number" class="col-12 form-control form-text " required
+                                           placeholder="(cm)" name="obwodpasa"/>
+                        <input type="submit" class="col-6 float-right mt-2  btn btn-primary" value="Oblicz"/>
+
+
+                    </form>
+                    <div th:if="${suma!=null}">
+                        <h3 class="pt-3"> Twoje BF to: <span class="sumcalc" th:text="${suma}"></span>%</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="row">
+                    <div class=" col-12 ">
+                        <img class="m-3 img-fluid" th:src="@{/css/img/iconscalculator/BF.png}"/>
+                        <article class="aticlecalculator p-2">
+                            Wskaźnik określający procentowy udział tkanki tłuszczowej w ciele ma za zadanie ukazać, ile
+                            procent w całej masie ciała stanowi tłuszcz. Jest to istotny element, który nadaje się do
+                            tego, aby miarodajnie kontrolować postępy odchudzania, jak i to, czy nadwyżka kaloryczna
+                            podczas budowania masy nie jest zbyt wysoka.
+
+                        </article>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Baza Cwiczeń </title>
+    <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{css/js/main.js}" src="../static/css/js/main.js"></script>
+</head>
+<body>
+
+<div layout:fragment="content" class="mySpace col-12 col-lg-10">
+
+    <!--<script>-->
+        <!--$('#modal-content').on('shown.bs.modal', function() {-->
+            <!--$("body.modal-open").removeAttr("style");-->
+        <!--});-->
+    <!--</script>-->
+
+    <!--<script>-->
+        <!--$('#modal-content').on('shown', function() {-->
+            <!--$("body.modal-open").removeAttr("style");-->
+        <!--})-->
+    <!--</script>-->
+
+    <div class=" pt-3 pb-2 naglowek">
+        <h2><i>Baza Cwiczeń</i></h2>
+    </div>
+
+    <div class="col-12 ">
+        <div class="row">
+            <div class=" one-exercise col-12 col-sm-6 col-lg-3" th:each="exeric:${data}">
+                <a th:href="@{execisedetails/(id=${exeric.id})}"
+                   class="kalsashe btnnn"></a>
+                <div class="odsepp ">
+                    <div class="col-12   image-exercise "><img
+                            th:src="@{/css/img/exercise.jpg}"
+                            style="width: 150px; height: 150px;"/></div>
+                    <div class="col-12   name-exercise  " th:text="${exeric.nazwa}"></div>
+                </div>
+            </div>
+            <ul class="nav  col-12 p-3 nav-pills">
+                <li class="nav  item" th:each="i : ${#numbers.sequence(0, data.totalPages - 1)}">
+                    <a th:href="@{/exercise(page=${i})}" th:text="${i}" class="nav-link"
+                       th:classappend="${currentPage}==${i}?'active':''"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="myFormDetail">
+        <form th:action="@{execisedetails}" method="post">
+            <div class="modal fade" id="showdetail" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog  modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!--<h5 class="modal-title">Cwiczenie </h5>-->
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-12 img-fluid  image-exercise "><img
+                                    th:src="@{/css/img/bodyexercise.jpg}"
+                                    style="width: 370px; height: 180px; border-radius: 20px;"/>
+                            </div>
+                            <div class=" col-12 forum-group ">
+                                <!--<label for="nazwa" class="col-form-label">Nazwa:</label>-->
+                                <textarea type="text" class="form-control-sm form-control text-uppercase" id="nazwa"
+                                          name="nazwa">
+                                           </textarea>
+                            </div>
+                            <div class=" col-12 form-group">
+                                <label for="opis" class="col-form-label">Opis i wykonie: </label>
+                                <textarea type="text" class="form-control " id="opis" name="opis"> </textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

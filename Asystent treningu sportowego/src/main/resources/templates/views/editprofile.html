@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Calculator </title>
+</head>
+<body>
+
+<div layout:fragment="content" class="mySpace col-12 col-lg-10">
+
+    <!--<div class="col-12 pt-3 pb-2 naglowek">-->
+        <!--<h2><i>Profil użytkownika</i></h2>-->
+    <!--</div>-->
+    <div class="editbg  row col-12 ">
+        <div class="col-12 pt-3 pb-2 naglowek">
+            <h2><i>Profil użytkownika</i></h2>
+        </div>
+
+        <!--<div class="span4 avatar text-center">-->
+        <!--<span class="name"> </span>-->
+        <!--<span class="param">rozmiar avatara: 128x128 px</span>-->
+        <!--<span class="button">-->
+        <!--<button id="add_file" name="files" class="btn btn-primary " type="button">Dodaj pliki</button>-->
+        <!--<input type="file" name="avatar" value="" class="btn-prime4" style="display:none;" />-->
+        <!--</span>-->
+        <!--<p><small>Wybrano plik: <strong></strong></small></p>-->
+        <!--</div>-->
+        <div class="col-md-5   klasas">
+            <h4 class="p-3 col-12"> Zdjęcie profilowe: </h4>
+            <form th:action="@{/upload-avatar}" th:object="${user}" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <img class="p-3 img-responsive rounded mx-auto d-block" th:src="@{/api/avatar/__${user.getEmail()}__}"
+                                 width="180" height="200"/>
+                        </div>
+                        <br/>
+
+                        <div class="col-sm-12">
+                            <input id="fileinput" type="file" name="file"
+                                   class="btn btn-default btn-file"
+                                   required="required"/>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input type="submit"
+                                   name="avatar-submit"
+                                   id="avatar-submit"
+                                   class="btn rounded mx-auto d-block"
+                                   value="Zapisz zmiany"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div th:if="${param.wrongtype}">
+                <div class="alert alert-danger alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    Dozwolone rozszerzenia to .png lub .jpg , maksymalny rozmiar 1MB!
+                </div>
+            </div>
+            <div th:if="${param.success}">
+                <div class="alert alert-success alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    Twoje zdjęcie profilowe zostało zaktulaizowane.
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-7 klasas">
+            <h4 class="p-3 col-12"> Dane Podstawowe : </h4>
+
+            <form th:action="@{/editprofile}" th:object="${user}" method="post">
+
+
+                <div class="form-group row">
+                    <label for="email" class="col-sm-2 pr-0 pl-0 text-center  col-form-label">Adres
+                        Email: </label>
+                    <div class="col-sm-10 cl-input">
+                        <input type="email" class="form-control form-text " th:field="*{email}" readonly="readonly"
+                               id="email">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('email')}"
+                             th:errors="*{email}"></div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="name"
+                           class="col-sm-2 pr-0 pl-0 text-center col-form-label">Imię: </label>
+                    <div class="col-sm-10 cl-input">
+                        <input type="text" class="form-control form-text" th:field="*{name}" id="name">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('name')}"
+                             th:errors="*{name}"></div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <label for="surname"
+                           class="col-sm-2 pr-0 pl-0 text-center col-form-label">Nazwisko: </label>
+                    <div class="col-sm-10 cl-input">
+                        <input type="text" class="form-control form-text " th:field="*{surname}" id="surname">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('surname')}"
+                             th:errors="*{surname}"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div hidden class="form-group row">
+                    <label for="password"
+                           class="col-sm-2 pr-0 pl-0 text-center  hidden col-form-label">Hasło: </label>
+                    <div class="col-sm-10 cl-input">
+                        <input type="text" class="form-control form-text " value="elko" th:value="${user.getPassword()}"
+                               th:name="password" id="password">
+                        <!--<div class="text col-sm-12 error" th:if="${#fields.hasErrors('password')}"-->
+                        <!--th:errors="*{password}">-->
+                        <!--</div>-->
+
+                    </div>
+                </div>
+                <div hidden class="form-group row">
+                    <label for="repassword" class="col-sm-2 pr-0 pl-0 text-center   col-form-label">Powtórz
+                        Hasło: </label>
+                    <div class="col-sm-10 cl-input">
+                        <input type="text" class="form-control  form-text " th:value="${user.getRepassword()}"
+                               th:name="repassword" id="repassword">
+                        <!--<div class="text col-sm-12 error" th:if="${#fields.hasErrors('repassword')}"-->
+                        <!--th:errors="*{repassword}">-->
+                        <!--</div>-->
+                    </div>
+                </div>
+
+                <h4 class="p-3 col-12"> Dane szczegółowe : </h4>
+
+                <ul class="edit-gender">
+                    <label for="surname"
+                           class="col-sm-2 pr-0 pl-0 text-center  col-form-label">Płec: </label> <input id="man"
+                                                                                                        type="radio"
+                                                                                                        name="gender"
+                                                                                                        th:field="*{gender}"
+                                                                                                        value="male"/>
+                    <label for="man">mężczyzna</label> &frasl;
+                    <input id="woman" type="radio" name="gender" th:field="*{gender}" value="female"/>
+                    <label for="woman">kobieta</label>
+                </ul>
+
+
+                <div class="form-group row">
+                    <label for="surname"
+                           class="col-sm-2 pr-0 pl-0 text-center  col-form-label">Data urodzenia: </label>
+                    <div class="col-sm-10 cl-input">
+                        <input type="date" class="form-control form-text " th:field="*{birthdate}" id="birthdate">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('birthdate')}"
+                             th:errors="*{birthdate}"></div>
+                    </div>
+
+                </div>
+
+
+                <!--<div class="form-group row">-->
+                    <!--<label for="surname"-->
+                           <!--class="col-sm-2 pr-0 pl-0 text-center  col-form-label">Waga: </label>-->
+                    <!--<div class="col-sm-10 cl-input">-->
+                        <!--<input type="number" value="1" class="form-control form-text " th:field="*{weight}" id="weight">-->
+                        <!--<div class="text col-sm-12 error" th:if="${#fields.hasErrors('weight')}"-->
+                             <!--th:errors="*{weight}"></div>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+
+                <div class="form-group row">
+                    <label for="surname"
+                           class="col-sm-2 pr-0 pl-0 text-center  col-form-label">Wzrost: </label>
+                    <div class="col-sm-10 cl-input">
+                        <input type="number" value="1" class="form-control form-text " th:field="*{growth}" id="growth">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('growth')}"
+                             th:errors="*{growth}"></div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-12 ">
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <input type="submit" value="Zapisz" data-toggle="modal" data-target="#myModal"
+                               class="col-lg-10 btn btn-primary"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <script type="text/javascript">
+            $(window).on('load', function () {
+                $('#myModal').modal('show');
+            });
+        </script>
+
+
+        <div th:if="${success}">
+            <div class="modal  modal-open fade" id="myModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-lg " role="document" style="width:1250px;">
+                    <div class="modal-content content-alert">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">
+                            Dane zostały zaktualizowane. <br/>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+</body>
+</html>

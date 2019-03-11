@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Calculator </title>
+</head>
+<body>
+
+<div layout:fragment="content" class="mySpace col-12 col-lg-10">
+
+    <!--<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">-->
+    <!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
+    <div class=" pt-3 pb-2 naglowek">
+        <h2><i>Kontroluj swoją mase ciała </i></h2>
+    </div>
+    <!--<h3 class="text-center p-3 col-12">Wprowadź aktulana mase ciała </h3>-->
+
+    <div class="col-12  m-4 dimensionelemnet">
+        <form th:action="@{/weight}" th:object="${newWeight}" method="post">
+
+            <div class="col-12">
+                <div class="row">
+                    <div class=" form-group col-6  ">
+                        <label class="text-center pr-1">Aktualna waga(kg): </label>
+                        <div class="d-inline-block cl-input">
+                            <input required type="number" class="form-control form-text " th:field="*{waga}"
+                                   id="lydka">
+                            <div class="text col-sm-12 error" th:if="${#fields.hasErrors('waga')}"
+                                 th:errors="*{waga}"></div>
+                        </div>
+                    </div>
+                    <div class="col-6 text-center">
+                        <input class=" col-8 btn btn-primary btn-md  btn-success" type="submit" value="Zapisz wage"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div th:if="${havawaight}">
+        <div class="trainingtable">
+            <div class="card">
+                <table class="table table-hover">
+
+                    <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Waga</th>
+
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr th:each="weight:${userweight}">
+                        <td th:text="${#dates.format(weight.currentdate, 'dd-MM-yyyy HH:mm')}"></td>
+                        <td class="quantity" th:text="${weight.waga}"></td>
+                        <td>
+                            <a th:href="@{deleteweight/(id=${weight.id})}"
+                               class="fas float-right fa-trash-alt btn-danger btn-sm  btn-primary delBtn"></a>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>$("td.quantity ").append(" kg");</script>
+
+
+        <div id="wykreswaga" style="min-width: 310px; max-width: 1120px; height: 600px; margin: 0 auto"></div>
+
+        <script th:inline="javascript">
+            $(function () {
+
+                Highcharts.chart('wykreswaga', {
+                    chart: {
+                        type: 'area'
+                    },
+                    title: {
+                        text: 'Wykres wagi'
+                    },
+
+                    xAxis: {
+                        categories: [[${surveyMap.keySet()}]],
+                        allowDecimals: false,
+                        labels: {
+                            formatter: function () {
+                                return this.value; // clean, unformatted number for year
+                            }
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Data'
+                        },
+                        // labels: {
+                        //     formatter: function () {
+                        //         return this.value / 1000 + 'k';
+                        //     }
+                        // }
+                    },
+                    tooltip: {
+                        pointFormat: 'Waga: <b>{point.y:,.0f}</b><br/>'
+                    },
+                    series: [{
+                        name: 'Waga',
+                        data: [[${surveyMap.values()}]],
+                    }]
+                });
+            });
+        </script>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Cele </title>
+
+    <script type="text/css" th:src="@{css/js/bottom.css}" src="../static/css/js/bottom.css"></script>
+    <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{css/js/main.js}" src="../static/css/js/main.js"></script>
+
+</head>
+<body>
+
+<div layout:fragment="content" class="mySpace col-12 col-lg-10">
+
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+
+    <div class=" pt-3 pb-2 naglowek">
+        <h2><i>Zapisuj swoje cele i monitoruj osiągnięcia</i></h2>
+    </div>
+
+    <!--FORM-->
+    <div class="col-12 dimensionelemnet">
+        <div class="row">
+            <form th:action="@{/goals}" th:object="${goalsss}" method="post">
+
+
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12  text-center">
+                            <label class="">Wybierz typ celu : </label>
+                        </div>
+
+                        <div class=" col-3 klssss">
+                            <input class="colorselector" type="radio" name="test" id="tycelu0"
+                                   th:field="*{typegoals}"
+                                   th:value="${typcelu.get(0)}">
+                            <label for="tycelu0"> <img class="klasaaaa img-fluid"
+                                                       th:src="@{/css/img/icons/running-man.svg}"/>
+                                <p th:text="${typcelu.get(0)}"></p>
+                            </label>
+                        </div>
+
+                        <label class=" col-3 klssss">
+                            <input required class="colorselector" type="radio" name="test" id="tycelu1"
+                                   th:field="*{typegoals}"
+                                   th:value="${typcelu.get(1)}">
+                            <label for="tycelu1"> <img class="klasaaaa img-fluid"
+                                                       th:src="@{/css/img/icons/distance.svg}"/>
+                                <p th:text="${typcelu.get(1)}"></p>
+                            </label>
+                        </label>
+
+
+                        <label class=" col-3 klssss">
+                            <input class="colorselector" type="radio" name="test" id="tycelu2" th:field="*{typegoals}"
+                                   th:value="${typcelu.get(2)}">
+                            <label for="tycelu2"> <img class="klasaaaa img-fluid"
+                                                       th:src="@{/css/img/icons/calories.svg}"/>
+                                <p th:text="${typcelu.get(2)}"></p>
+                            </label>
+                        </label>
+
+
+                        <label class=" col-3 klssss">
+                            <input class="colorselector" type="radio" name="test" id="tycelu3" th:field="*{typegoals}"
+                                   th:value="${typcelu.get(3)}">
+                            <label for="tycelu3"> <img class="klasaaaa img-fluid"
+                                                       th:src="@{/css/img/icons/running-man.svg}"/>
+                                <p th:text="${typcelu.get(3)}"></p>
+                            </label>
+                        </label>
+                    </div>
+
+                    <!--<div th:if="${typaktywnosci==null}">-->
+                    <!--<div class="text col-12 error">-->
+                    <!--<p class="text text-center">-->
+                    <!--Proszę wybrać typ celu-->
+                    <!--</p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<img th:src="@{/css/img/logodobre.png}" th:class="img-responsive" />-->
+
+                    <div class="col-6 row ">
+                        <div class=" form-group   ">
+                            <label for="nazwa"
+                                   class="col-sm-12 pr-0 pl-0 text-center  col-form-label">Nazwa: </label>
+                            <div class="col-sm-12 cl-input">
+                                <input type="text" class="form-control form-text " th:field="*{nazwa}"
+                                >
+                                <!--<div class="text col-sm-12 error" th:if="${#fields.hasErrors('nazwa')}"-->
+                                <!--th:errors="*{nazwa}"></div>-->
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-6 row ">
+                        <div class=" form-group   ">
+                            <label for="goal" class="col-sm-12 pr-0 pl-0 text-center col-form-label"> Typ
+                                aktywności: </label>
+                            <div class="field desc form-control-lg">
+                                <select class="col-sm-12 cl-input form-control-lg" th:field="*{typeactivity}">
+                                    <option class="col-sm-12 cl-input" selected="selected"
+                                            th:each="i : ${#numbers.sequence(0, typaktywnosci.size()-1)}"
+                                            th:value="${typaktywnosci.get(i)}"
+                                            th:text="${typaktywnosci.get(i)}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-6 row ">
+                        <div class="form-group block ">
+                            <label for="goal" class="col-sm-12 pr-0 pl-0 text-center col-form-label"> Cel: </label>
+                            <div class="cl-input  col-12 ">
+                                <div class="col-7 row d-inline-block">
+                                    <input required type="number" class="form-control form-text" th:field="*{goal}">
+                                </div>
+                                <div class="col-5   d-inline-block">
+                                    <div id="Godziny" class="colors" style="display:none"> godzin</div>
+                                    <div id="Dystans" class="colors" style="display:none"> mil</div>
+                                    <div id="Kalorie" class="colors" style="display:none"> kalori</div>
+                                    <div id="Aktywnosci" class="colors" style="display:none"> aktywności</div>
+                                </div>
+                            </div>
+
+                            <!--<div class="text col-sm-12 error" th:if="${#fields.hasErrors('goals')}"-->
+                            <!--th:errors="*{goals}"></div>-->
+                            <script> $(function () {
+                                $('.colorselector').change(function () {
+                                    $('.colors').hide();
+                                    $('#' + $(this).val()).show();
+                                });
+                            });
+                            </script>
+
+
+                            <!--<script>$(".colors").css("display", "inline-block");</script>-->
+                        </div>
+                    </div>
+
+
+                    <div class="col-3 row d-inline-block ">
+                        <div class="form-group">
+                            <label for="startgoals" class="form-control-label">Data rozpoczęcia: </label> <input
+                                type="date" class="form-control" th:field="*{startgoals}"/>
+                            <div class="text text-danger" th:if="${#fields.hasErrors('startgoals')}"
+                                 th:errors="*{startgoals}"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-3 row  ml-2  d-inline-block ">
+                        <div class="form-group">
+                            <label for="stopgoals" class="form-control-label">Data zakończenia: </label> <input
+                                type="date" class="form-control" th:field="*{stopgoals}"/>
+                            <!--<div class="text text-danger" th:if="${#fields.hasErrors('stopgoals')}"-->
+                            <!--th:errors="*{stopgoals}"></div>-->
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-3 p-3  float-right">
+                    <div class="row">
+                        <input type="submit"
+                               value="Zapisz" class="col-12 btn btn-primary"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--TABLE SHOW-->
+    <!--<div th:if="${usergoals.get(0).getId()!=null}">-->
+    <div th:if="${havagoal}">
+        <div class="trainingtable">
+            <div class="card p-2">
+                <table class="table table-hover">
+
+                    <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Typ Celu</th>
+                        <th>Cel</th>
+                        <!--<th>Typ aktyności</th>-->
+                        <!--<th>Aktulany wynik</th>-->
+                        <th>Postęp</th>
+                        <!---->
+                        <!--<th>Data celu  </th>-->
+                        <!--<th>Dni pozostałe do ukończenia celu </th>-->
+                        <!--<th>button wykonano </th>-->
+
+                        <!--</tr>-->
+                    </thead>
+                    <tbody>
+                    <tr th:each="usergoal:${usergoals}">
+                        <td class="quantity " th:text="${usergoal.nazwa}"></td>
+                        <td class="quantity" th:text="${usergoal.typegoals}"></td>
+                        <td class="quantity2" th:text="${usergoal.goal}"></td>
+
+                        <td>
+                            <div class="outer">
+                                <div th:id="${usergoal.id}" class="container"
+                                     style="min-width: 300px; max-width: 300px; height: 200px; margin: 0 auto"></div>
+                            </div>
+                            <script>
+                                var gaugeOptions = {
+                                    chart: {
+                                        type: 'solidgauge'
+                                    },
+
+                                    title: null,
+
+
+                                    pane: {
+                                        center: ['50%', '85%'],
+                                        size: '140%',
+                                        startAngle: -90,
+                                        endAngle: 90,
+
+                                        background: {
+                                            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                                            innerRadius: '60%',
+                                            outerRadius: '100%',
+                                            shape: 'arc'
+                                        }
+                                    },
+
+                                    tooltip: {
+                                        enabled: false
+
+                                    },
+
+                                    // the value axis
+                                    yAxis: {
+                                        stops: [
+                                            [0.1, '#55BF3B'], // green
+                                            [0.5, '#DDDF0D'], // yellow
+                                            [0.9, '#DF5353'] // red
+                                        ],
+
+                                        lineWidth: 0,
+                                        minorTickInterval: null,
+                                        tickInterval: [[${usergoal.getGoal()}]],
+
+
+                                        title: {
+                                            y: -70
+                                        },
+                                        labels: {
+                                            y: 16
+                                        }
+                                    },
+
+                                    plotOptions: {
+                                        solidgauge: {
+                                            dataLabels: {
+                                                y: 5,
+                                                borderWidth: 0,
+                                                useHTML: true
+                                            }
+                                        }
+                                    }
+                                };
+                            </script>
+                            <script>
+                                var chartSpeed = Highcharts.chart('[[${usergoal.id}]]', Highcharts.merge(gaugeOptions, {
+                                    yAxis: {
+
+                                        min: 0,
+                                        max: [[${usergoal.getGoal()}]],
+
+                                        title: {
+                                            text: 'Postęp'
+                                        }
+                                    },
+
+                                    credits: {
+                                        enabled: false
+                                    },
+
+                                    series: [{
+                                        name: 'Postęp',
+
+                                        data: [[${'['+usergoal.curentresult+']'}]],
+                                        dataLabels: {
+                                            format: '<div style="text-align:center"><span style="font-size:35px;color:' +
+                                                ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                                                '<span style="font-size:12px;color:silver">[[${usergoal.curentresult}/${usergoal.goal}*100]]%</span></div>'
+                                        },
+                                        tooltip: {
+                                            valueSuffix: '%'
+                                        }
+                                    }]
+
+                                }));
+                            </script>
+
+                        </td>
+
+                        <td><a th:href="@{addcurent/(id=${usergoal.id})}"
+                               class="btn btn-success btn-sm nBtn">Dodaj wynik</a></td>
+                        <td>
+                            <a th:href="@{edit/(id=${usergoal.id})}"
+                               class="fas fa-pencil-alt btn-success btn-sm  btn-primary eBtn"></a>
+                            <a th:href="@{delete/(id=${usergoal.id})}"
+                               class="fas fa-trash-alt btn-danger btn-sm  btn-primary delBtn"></a>
+                        </td>
+
+                        <!--<td class="quantity3" th:text="${usergoal.nazwa}"></td>-->
+                        <!--<td class="quantity" th:text="${usergoal.typegoals}"></td>-->
+
+                    </tbody>
+
+                </table>
+
+                <!--MODAL EDIT-->
+                <div class="myFormUpdate">
+                    <form th:action="@{edit}" method="post">
+                        <div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Edytuj Cel</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="col-12">
+                                            <div class="row ">
+                                                <div class="forum-group">
+                                                    <div class="form-group">
+                                                        <!--<label for="id" class="col-form-label">User id:</th:text></label>-->
+                                                        <input type="hidden" class="form-control" id="idsss" name="id"
+                                                               value=""/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="forum-group col-6">
+                                                    <label for="nazwa" class="form-control-label">Nazwa:</label>
+                                                    <input type="text" class="form-control-sm form-control" id="nazwa"
+                                                           name="nazwa"
+                                                           value="">
+                                                </div>
+                                                <div class="forum-group col-6">
+
+                                                    <select class="form-control" id="typeactivity" name="typeactivity">
+                                                        <label for="typeactivity"
+                                                               class="form-control-sm form-control-label">Typ
+                                                            aktywności:</label>
+                                                        <option
+                                                                th:each="i : ${#numbers.sequence(0, typaktywnosci.size()-1)}"
+                                                                th:value="${typaktywnosci.get(i)}"
+                                                                th:text="${typaktywnosci.get(i)}">
+                                                        </option>
+                                                    </select>
+
+                                                </div>
+                                                <div class="forum-group col-6">
+                                                    <select class="form-control" id="typegoals" name="typegoals">
+                                                        <label for="typegoals"
+                                                               class="form-control-sm form-control-label">Typ
+                                                            aktywności:</label>
+                                                        <option
+                                                                th:each="i : ${#numbers.sequence(0, typcelu.size()-1)}"
+                                                                th:value="${typcelu.get(i)}"
+                                                                th:text="${typcelu.get(i)}">
+                                                        </option>
+                                                    </select>
+
+
+                                                </div>
+                                                <div class="forum-group col-6">
+                                                    <label for="goal" class="form-control-label"> Cel:</label>
+                                                    <input type="number" class=" form-control-sm form-control" id="goal"
+                                                           name="goal"
+                                                           value="">
+                                                </div>
+                                                <div class="forum-group col-6">
+                                                    <label for="startgoals" class="form-control-label">Data zakończenia
+                                                        celu:</label>
+                                                    <input type="date" class="form-control-sm form-control"
+                                                           id="startgoals"
+                                                           name="startgoals"
+                                                           value="">
+                                                </div>
+                                                <div class="forum-group col-6">
+                                                    <label for="stopgoals" class="form-control-label">Data rozpoczęcia
+                                                        celu:</label>
+                                                    <input type="date" class=" form-control-sm form-control"
+                                                           id="stopgoals"
+                                                           name="stopgoals"
+                                                           value="">
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+                                            Anuluj
+                                        </button>
+                                        <input type="submit" class="btn btn-sm btn-primary" value="Zapisz"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+                <!--MODAL ADD CURENTRESULT -->
+                <div class="myFormAdd">
+                    <form th:action="@{addcurent}" method="post" class="myFormAdd">
+                        <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Dodaj wynik </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="forum-group">
+                                            <div class="form-group">
+                                                <!--<label for="id" class="col-form-label">User id:</th:text></label>-->
+                                                <input type="hidden" class="form-control" id="id" name="id"
+                                                       value=""/>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row ">
+                                                <div class="forum-group col-12">
+                                                    <label for="nazwa" class="form-control-label">Obecny wynik:</label>
+                                                    <input type="number" class="form-control-lg form-control"
+                                                           id="curentresult"
+                                                           name="curentresult"
+                                                           value="">
+                                                    <!--th:field="*{startgoals}"-->
+                                                </div>
+                                            </div>
+
+
+                                            <div class="forum-group pt-1 d-inline-block col-6">
+                                                <label for="startgoals" class="form-control-label">Data zakończenia
+                                                    celu:</label>
+                                                <input type="date" class="form-control-sm form-control"
+                                                       id="startgoals11111"
+                                                       name="startgoals"
+                                                       value="">
+                                            </div>
+                                            <div class="forum-group pt-1 d-inline-block  row col-6">
+                                                <label for="stopgoals" class="form-control-label">Data rozpoczęcia
+                                                    celu:</label>
+                                                <input type="date" class=" form-control-sm form-control"
+                                                       id="stopgoals1111"
+                                                       name="stopgoals"
+                                                       value="">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj
+                                            </button>
+                                            <input type="submit" class="btn  btn-primary" value="Zapisz"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+
+                <!--DELATE GOALS-->
+
+                <div class="modal fade" id="removeModalCenter" tabindex="-1" role="dialog"
+                     aria-labelledby="removeModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Usuń</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="alert alert-danger">
+                                    Czy na pewno chcesz usunąc ten Cel?
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj
+                                </button>
+                                <a class="btn btn-danger delBtn"
+                                   id="delRef">Usuń</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--</div>-->
+
+
+</div>
+</body>
+</html>

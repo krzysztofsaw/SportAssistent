@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Moja Dieta</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="mySpace col-12 col-lg-10">
+
+
+    <div class=" pt-3 pb-2 naglowek">
+        <h2><i>Moja Dieta</i></h2>
+    </div>
+    <div th:if="${sherediet}">
+        <div class="col-12 dimensionelemnet">
+            <div class="">
+                <form th:action="@{/finddiet}" th:object="${diet}" method="post">
+                    <div class="col-6 row ">
+                        <div class=" form-group   ">
+                            <label class="col-sm-12 pr-0 pl-0 text-center col-form-label"> Ilość
+                                posiłków: </label>
+                            <div class="field desc form-control-lg">
+                                <select class="col-sm-12 cl-input form-control-lg" th:field="*{iloscposilkow}">
+                                    <option class="col-sm-12 cl-input" selected="selected"
+                                            th:each="i : ${#numbers.sequence(0, liczbaposilkow.size()-1)}"
+                                            th:value="${liczbaposilkow.get(i)}"
+                                            th:text="${liczbaposilkow.get(i)}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 row ">
+                        <div class=" form-group   ">
+                            <label class="col-sm-12 pr-0 pl-0 text-center  col-form-label">Zakładana liczba kalorii
+                                dziennie: </label>
+                            <div class="col-sm-12 cl-input">
+                                <input type="number" class="form-control form-text " th:field="*{liczbakalori}"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 p-3">
+                        <div class="d-flex justify-content-end">
+                            <input type="submit"
+                                   value="Ułóż Dietę" class="col-4 btn btn-primary"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <h2 class="p-2 col-12 text-center"><i>Nie wiesz jaka liczba kalori będzie dla ciebie odpowiedznia? </i></h2>
+        <h5 class="p-2 col-12 text-center"><i>Skorzystaj z kalkulatora kalori aby zoabczyć ile wynosi twoje całkowite
+            dzienne zapotrzebowania kaloryczne.</i></h5>
+
+        <div class="col-12 p-3  ">
+            <div class="d-flex justify-content-center">
+                <a href="/cal-bmr">
+                    <button type="button" class="text-center col-12 btn btn-secondary">Kalkulator zapotrzebowania
+                        kalorycznego
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 row" th:if="${checkdiet}">
+        <div class="col-9 "></div>
+        <div class="col-3 pt-3">
+            <a class="col-12 btn btn-sm mb-3  d-inline-block btn-primary" th:href="@{cheangediet}">zmień <i
+                    class="fas fa-exchange-alt pull-left"></i></a>
+        </div>
+
+        <div class="col-12 dayss">
+            <div class="row">
+                <div th:each="dietdetail:${dietdetails}">
+                    <a class="col-3 elementday"
+                       th:href="@{anotherdays/(id=${dietdetail.id})}"
+                       th:text="${dietdetail.getDzientygodnia()}">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--<div class="col-12 pt-2 detailday d-inline-block"> <div class="d-inline-block">Dzień tygodnia:</div>-->
+            <!--<div class=" d-inline-block "-->
+                <!--th:text="${dzientydoniaaa}">-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="col-12 alltable ">
+            <div class="row">
+                <tr class="detailsday" th:each="bodydiet:${bodyDiets}">
+
+                    <div class="col-12 onediner">
+                        <div class="row">
+                            <div class="col-4 ">
+                                <div class="row">
+                                    <h2 class="col-12 pt-3 pb-4 "
+                                        th:text="${bodydiet.getRodzajposilku()}">
+                                    </h2>
+                                    <div class="col-12 pb-2 nazwaposilku"
+                                         th:text="${bodydiet.getNazwaposilku()}">
+                                    </div>
+
+                                    <div class="col-12 d-inline-block liczbakalori">
+                                        <div class="liczbakaloribg col-6">
+                                            <div class="d-inline-block" th:text="${bodydiet.getLiczbakalori()}"></div>
+                                            <p class="d-inline-block">kalori</p></div>
+                                    </div>
+
+                                    <div class="col-12 d-inline-block wagaporcji">
+                                        <div class="wagaporcjibg col-10"><p class="d-inline-block">Łączna waga
+                                            porcji:</p>
+                                            <div class="d-inline-block" th:text="${bodydiet.getLiczbakalori()}"></div>
+                                            <p class="d-inline-block">g.</p></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-12 p-3"
+                                         th:text="${bodydiet.getSkladniki()}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-12 float-left pb-2 pt-3 ">Przepis:</div>
+                                    <div class="col-12 p-2"
+                                         th:text="${bodydiet.getPrzepis()}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

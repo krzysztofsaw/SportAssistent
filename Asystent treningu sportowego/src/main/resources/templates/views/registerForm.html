@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Register Form</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="container mySpace ">
+
+
+    <div class="alert alert-info" th:if="${exist}">
+        <p class="text text-center">
+            Użytkownik o tym adresie e-mial już istnieje
+        </p>
+    </div>
+
+    <div class="col-lg-12 row positioning">
+        <div id="registration" class="col-12  col-sm-10 col-md-8 col-lg-7 ">
+
+            <form action="/connect/facebook" method="POST">
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-10 text-center">
+                        <div class="client_new_social pt-4">
+                            <h5>
+                                Połącz Sport Asistent z kontem Facebook
+                            </h5>
+                        </div>
+                        <button type="submit" class="loginBtn col-12 col-lg-9 text-center loginBtn--facebook">
+                            Zaloguj się przez facebook
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <form th:action="@{/register}"  th:object="${user}"  method="post">
+
+                <div class="form-group row">
+                    <label for="name"
+                           class="col-sm-2 pr-0 pl-0 text-center col-form-label">Imię: </label>
+                    <div class="col-sm-10 cl-input">
+                        <input type="text" class="form-control form-text" th:field="*{name}" id="name">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('name')}"
+                             th:errors="*{name}"></div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <label for="surname"
+                           class="col-sm-2 pr-0 pl-0 text-center  col-form-label">Nazwisko: </label>
+                    <div class="col-sm-10 cl-input">
+                        <input type="text" class="form-control form-text " th:field="*{surname}" id="surname">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('surname')}"
+                             th:errors="*{surname}"></div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <label for="email" class="col-sm-2 pr-0 pl-0 text-center  col-form-label">Adres
+                        Email: </label>
+                    <div class="col-sm-10 cl-input">
+                        <input type="email" class="form-control form-text " th:field="*{email}" id="email">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('email')}"
+                             th:errors="*{email}"></div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="password"
+                           class="col-sm-2 pr-0 pl-0 text-center col-form-label">Hasło: </label>
+                    <div class="col-sm-10 cl-input">
+                        <input type="password" class="form-control form-text " th:field="*{password}" id="password">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('password')}"
+                             th:errors="*{password}">
+                        </div>
+                        <div class="text col-sm-12 error" th:if="${fdlugosc}">
+                            <p class="text text-center">
+                                Hasło powinno zawierać minimum 4 znaki
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="repassword" class="col-sm-2 pr-0 pl-0 text-center  col-form-label">Powtórz
+                        Hasło: </label>
+                    <div class="col-sm-10 cl-input">
+                        <input type="password" class="form-control form-text " th:field="*{repassword}" id="repassword">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('repassword')}"
+                             th:errors="*{repassword}">
+                        </div>
+                        <div class="text col-sm-12 error" th:if="${fdlugosc}">
+                            <p class="text text-center">
+                                Hasło powinno zawierać minimum 4 znaki
+                            </p>
+                        </div>
+                        <div class="text col-sm-12 error" th:if="${sarowne}">
+                            <p class="text text-center">
+                                Proszę powtórzyć prawidłowo hasło.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 ">
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <input type="submit"  value="Zarejestruj się" class="col-lg-10 btn btn-primary"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+
+
+
+        <div class="col-lg-5 well  ">
+
+            <h2 class="text-center">TWOJA DROGA DO SUKCESU </h2>
+            <div class="well" id="register-form">
+                <div id="auth_form_panel_right">
+                    <h3 class="text-center">Wybrane korzyści:</h3>
+                    <ul>
+                        <li>Odpowiednio dostosowana dieta</li>
+                        <li>Trening dopasowany do celu</li>
+                        <li>Kontrola swoich postępów</li>
+                    </ul>
+                    <h3 class="text-center">Wybrane funkcje:</h3>
+                    <ul>
+                        <li>Zaplanownie treningów</li>
+                        <li>Zarządzanie aktywnościami sportowymi</li>
+                        <li>Stawianie cele sportowych</li>
+                        <li>... i wiele innych</li>
+                    </ul>
+                    <h4>Zarejestruj się w serwisie już teraz !</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

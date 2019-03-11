@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Calculator </title>
+</head>
+<body>
+
+<div layout:fragment="content" class="mySpace col-12 col-lg-10">
+
+    <div class="col-12 pt-3 pb-2 naglowek">
+        <h2><i>Kalkulator BMR</i></h2>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#calculatornavbar"
+                aria-controls="calculatornavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navcalculator navbar-collapse justify-content-md-center" id="calculatornavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/cal-bmi">BMI <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cal-bmr">BMR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/cal-bf">BF</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/cal-whr">WHR</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="row">
+                    <form th:action="@{/cal-bmr}" method="post" class="col-12">
+
+                        <ul class="col-12 gender-options text-center">
+                            <input checked id="man" type="radio" name="gender" value="male" required/>
+                            <label for="man">mężczyzna</label> &frasl;
+                            <input id="woman" type="radio" name="gender" value="female"/>
+                            <label for="woman">kobieta</label>
+                        </ul>
+
+                        Masa: <input type="number" class=" col-12 form-control form-text " placeholder="(kg)" required
+                                     name="masa"/>
+                        Wzrost: <input type="number" class=" col-12 form-control form-text " placeholder="(cm)" required
+                                       name="wzrost"/>
+                        Wiek: <input type="number" class="col-12 form-control form-text " required name="wiek"/>
+
+                        <input type="submit" class="col-6 float-right mt-2  btn btn-primary" value="Oblicz"/>
+                    </form>
+                    <div th:if="${suma!=null}">
+                        <h3 class="pt-3">Twoje BMR to: <span class="sumcalc" th:text="${suma}"></span> kcal</h3>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="row">
+                    <div class=" col-12 ">
+                        <img class="m-3 img-fluid" th:src="@{/css/img/iconscalculator/BMR.png}"/>
+                        <article class="aticlecalculator p-2">
+                            Kalkulator kalorii umożliwia szybkie i wygodne wyliczenie własnego dziennego
+                            zapotrzebowania na kalorie oraz poznanie wskaźnika BMR. Wskaźnik podstawowej
+                            przemiany materii (Basal Metabolic Rate, BMR) jest minimalnym dziennym
+                            zapotrzebowaniem energetycznym koniecznym do podtrzymania podstawowych procesów
+                            życiowych ciała w spoczynku.
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

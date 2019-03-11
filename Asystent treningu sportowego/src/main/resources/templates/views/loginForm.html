@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:c="http://www.w3.org/1999/XSL/Transform"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Register Form</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="container mySpace ">
+
+    <div class="alert alert-danger text-center" th:if="${param.error}">
+        <h2>Nieprawidłowy email lub hasło. </h2>
+    </div>
+
+    <div class="alert alert-info" th:if="${exist}">
+        <p class="text text-center">
+            Użytkownik o tym adresie e-mial już istnieje.
+        </p>
+    </div>
+    <div class="col-lg-12 row positioning">
+        <div id="login" class="col-12  col-sm-10 col-md-8 col-lg-7 ">
+
+            <h3 class="col-12 viewlog">
+                Posiadasz już konto?</br>
+                Zaloguj się
+            </h3>
+            <div class="ml-4">
+                <form action="/connect/facebook" method="POST">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <div class="client_new_social pt-4">
+                                <h5>
+                                    Połącz Sport Asistent z kontem Facebook
+                                </h5>
+                            </div>
+                            <button type="submit" class="loginBtn  col-10 col-lg-7 text-center loginBtn--facebook">
+                                Zaloguj się przez facebook
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+
+                <form th:action="@{/login}" method="post">
+
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="email" class=" col-sm-2 pr-0 pl-0 text-center col-form-label">Email: </label>
+                            <input
+                                    type="text" class=" col-sm-8 cl-input form-control" id="email" name="username"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label for="password" class="col-sm-2 pr-0 pl-0 text-center col-form-label">Hasło: </label>
+                            <input type="password" class=" col-sm-8 cl-input form-control" id="password"
+                                   name="password"/>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 mt-3">
+                        <div class="row">
+                            <div class="col-lg-2"></div>
+                            <input type="submit" value="Zaloguj się " class="col-lg-8 btn btn-primary"/>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+        <div class="col-lg-5 well  ">
+
+            <h2 class="text-center">TWOJA DROGA DO SUKCESU </h2>
+            <div class="well" id="register-form">
+                <div id="auth_form_panel_right">
+                    <h3 class="text-center">Wybrane korzyści:</h3>
+                    <ul>
+                        <li>Odpowiednio dostosowana dieta</li>
+                        <li>Trening dopasowany do celu</li>
+                        <li>Kontrola swoich postępów</li>
+                    </ul>
+                    <h3 class="text-center">Wybrane funkcje:</h3>
+                    <ul>
+                        <li>Zaplanownie treningów</li>
+                        <li>Zarządzanie aktywnościami sportowymi</li>
+                        <li>Stawianie cele sportowych</li>
+                        <li>... i wiele innych</li>
+                    </ul>
+                    <h4>Zarejestruj się w serwisie już teraz !</h4>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+</body>
+</html>

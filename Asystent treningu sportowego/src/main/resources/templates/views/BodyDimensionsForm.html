@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Calculator </title>
+</head>
+<body>
+
+<div layout:fragment="content" class="mySpace col-12 col-lg-10">
+
+    <div class="col-12 pt-3 pb-2 naglowek">
+        <h2><i>Dodaj Pomiar:</i></h2>
+    </div>
+
+    <div class="col-12 dimensionelemnet">
+        <form th:action="@{/addDimensions}" th:object="${newDiemnsions}" method="post">
+
+
+            <div class="col-6 row">
+                <div class=" form-group   ">
+                    <label for="lydka" class="col-sm-12 pr-0 pl-0 text-center  col-form-label">Obwód
+                        łydki(cm): </label>
+                    <div class="col-sm-12 cl-input">
+                        <input required type="number" class="form-control form-text " th:field="*{lydka}"
+                               id="lydka">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('lydka')}"
+                             th:errors="*{lydka}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 row">
+                <div class="form-group   ">
+                    <label for="udo"
+                           class="col-sm-12 pr-0 pl-0 text-center col-form-label">Obwód uda(cm): </label>
+                    <div class="col-sm-12 cl-input">
+                        <input required type="number" class="form-control form-text" th:field="*{udo}" id="udo">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('udo')}"
+                             th:errors="*{udo}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 row">
+                <div class="form-group ">
+                    <label for="biodra"
+                           class="col-sm-12 pr-0 pl-0 text-center col-form-label">Obwód bioder(cm): </label>
+                    <div class="col-sm-12 cl-input">
+                        <input required type="number" class="form-control form-text " th:field="*{biodra}"
+                               id="biodra">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('biodra')}"
+                             th:errors="*{biodra}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 row">
+                <div class="form-group ">
+                    <label for="talia"
+                           class="col-sm-12 pr-0 pl-0 text-center  hidden col-form-label">Obwód talii(cm): </label>
+                    <div class="col-sm-12 cl-input">
+                        <input required type="number" class="form-control form-text " th:field="*{talia}"
+                               id="talia">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('talia')}"
+                             th:errors="*{talia}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 row">
+                <div class="form-group ">
+                    <label for="klatka"
+                           class="col-sm-12 pr-0 pl-0 text-center  hidden col-form-label">Obwód klatki(cm): </label>
+                    <div class="col-sm-12 cl-input">
+                        <input required type="number" class="form-control form-text " th:field="*{klatka}"
+                               id="klatka">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('klatka')}"
+                             th:errors="*{klatka}">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 row">
+                <div class="form-group ">
+                    <label for="biceps"
+                           class="col-sm-12 pr-0 pl-0 text-center  hidden col-form-label">Obwód bicepsa
+                        (cm): </label>
+                    <div class="col-sm-12 cl-input">
+                        <input required type="number" class="form-control form-text " th:field="*{biceps}"
+                               id="biceps">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('biceps')}"
+                             th:errors="*{biceps}">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 row">
+                <div class="form-group ">
+                    <label for="przedramie"
+                           class="col-sm-12 pr-0 pl-0 text-center  hidden col-form-label">Obwód przedramienia
+                        (cm): </label>
+                    <div class="col-sm-12 cl-input">
+                        <input required type="number" class="form-control form-text " th:field="*{przedramie}"
+                               id="przedramie">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('przedramie')}"
+                             th:errors="*{przedramie}">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 row">
+                <div class="form-group ">
+                    <label for="kark"
+                           class="col-sm-12 pr-0 pl-0 text-center  hidden col-form-label">Obwód karku (cm): </label>
+                    <div class="col-sm-12 cl-input">
+                        <input required type="number" class="form-control form-text " th:field="*{kark}" id="kark">
+                        <div class="text col-sm-12 error" th:if="${#fields.hasErrors('kark')}"
+                             th:errors="*{kark}">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-3 col-12 ">
+                <div class="row">
+                    <input type="submit"
+                           value="Zapisz pomiar" class="col-12 btn btn-primary"/>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div th:if="${havadimension}">
+        <div class="bodydymension p-2">
+            <div class="card ">
+                <table class="table table-hover">
+
+                    <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Łydka</th>
+                        <th>Udo</th>
+                        <th>Bioda</th>
+                        <th>Talia</th>
+                        <th>Klatka Piersiowa</th>
+                        <th>Biceps</th>
+                        <th>Przedramie</th>
+                        <th>Kark</th>
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="dimansion:${dimansions}">
+
+                        <td th:text="${#dates.format(dimansion.currentdate, 'dd-MM-yyyy HH:mm')}"></td>
+                        <td class="quantity" th:text="${dimansion.lydka}"></td>
+                        <td class="quantity" th:text="${dimansion.udo}"></td>
+                        <td class="quantity" th:text="${dimansion.biodra}"></td>
+                        <td class="quantity" th:text="${dimansion.talia}"></td>
+                        <td class="quantity" th:text="${dimansion.klatka}"></td>
+                        <td class="quantity" th:text="${dimansion.biceps}"></td>
+                        <td class="quantity" th:text="${dimansion.przedramie}"></td>
+                        <td class="quantity" th:text="${dimansion.kark}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script> $("td.quantity").append(" cm"); </script>
+
+
+        <div id="wykres" style="min-width: 310px; max-width: 1120px; height: 600px; margin: 0 auto"></div>
+        <script th:inline="javascript">
+            $(function () {
+                Highcharts.chart('wykres', {
+
+                    title: {
+                        text: 'Wykres pomiarów ciała'
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Wartość [cm]'
+                        },
+
+                    },
+                    time: {
+                        timezone: 'America/New_York'
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle'
+                    },
+
+                    xAxis: {
+                        categories: [[${datapomiaru}]],
+
+                    },
+                    plotOptions: {
+                        // series: {
+                        //     label: {
+                        //         connectorAllowed: false
+                        //     },
+                        //     pointStart: 2010
+                        // }
+                    },
+
+
+                    series: [{
+                        name: 'Biceps',
+                        data: [[${bicki}]],
+                    }, {
+                        name: 'Biodra',
+                        data: [[${biodra}]],
+                    }, {
+                        name: 'Kark',
+                        data: [[${kark}]],
+                    }, {
+                        name: 'Klatka',
+                        data: [[${klatka}]],
+                    }, {
+                        name: 'Łydka',
+                        data: [[${lydka}]],
+                    }, {
+                        name: 'Przedramie',
+                        data: [[${przedramie}]],
+                    }, {
+                        name: 'Talia',
+                        data: [[${talia}]],
+                    }, {
+                        name: 'Uda',
+                        data: [[${udo}]],
+                    }
+                    ],
+
+
+                    responsive: {
+                        rules: [{
+                            condition: {
+                                maxWidth: 500
+                            },
+                            chartOptions: {
+                                legend: {
+                                    layout: 'horizontal',
+                                    align: 'center',
+                                    verticalAlign: 'bottom'
+                                }
+                            }
+                        }]
+                    }
+
+                });
+            });
+        </script>
+
+    </div>
+
+
+</div>
+</body>
+</html>

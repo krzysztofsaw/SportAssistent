@@ -1,0 +1,283 @@
+<html xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.springframework.org/schema/security">
+<head>
+    <title>Kalendarz</title>
+</head>
+<div class="mySpace col-lg-12">
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <link rel="stylesheet" type="text/css" href="../../static/css/style.css" th:href="@{css/style.css}"/>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/pace/1.0.2/themes/blue/pace-theme-minimal.css}"/>
+
+    <!--<script th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>-->
+    <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+    <script src="css/js/bootstrap-notify.js"/>
+    <script th:src="@{/webjars/pace/1.0.2/pace.min.js}"></script>
+    <script src="css/js/getnotifications.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <link rel='stylesheet' href='webjars/fullcalendar/3.8.0/dist/fullcalendar.css'/>
+    <script src='webjars/moment/2.19.1/min/moment.min.js'></script>
+    <script src='webjars/fullcalendar/3.8.0/dist/fullcalendar.js'></script>
+    <script src="css/js/gcal.min.js"></script>
+    <script src="css/js/calendar.js"></script>
+    <script src="css/js/pl.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <body>
+
+
+    <div class="container">
+
+        <nav class="navbar navbar-calendar cl-newbar navbar-expand-lg navbar-dark">
+
+            <div class="col-sm-2" sec:authorize="!isAuthenticated()">
+                <a href="/"><img class="" src="/css/img/logodobre.png"></a>
+            </div>
+            <div class="col-sm-2" sec:authorize="isAuthenticated()">
+                <a href="/home"><img class="" src="/css/img/logodobre.png"></a>
+            </div>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarColor01">
+                <ul class="navbar-nav">
+
+                    <li class="nav-item " sec:authorize="!isAuthenticated()">   <!--jesli nie jest zalogowany to-->
+                        <a class="nav-link" href="/register">Rejestracja</a>
+                    </li>
+                    <li class="nav-item " sec:authorize="!isAuthenticated()">   <!--jesli nie jest zalogowany to-->
+                        <a class="nav-link" href="/login">Logowanie</a>
+                    </li>
+
+                </ul>
+
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div sec:authorize="isAuthenticated()">
+            <div class="col-sm-12 calendar-saidbar col-lg-2 " id="siaidbar">
+                <div class="nav nav-sidebar row navicon flex-column">
+                    <div class="col-sm-12 centersmallcallendar nav-item">
+                        <a class="nav-link nav-style float-left calenadarmenu  ">Menu:</a>
+                    </div>
+                    <li class="col-sm-6 col-md-4 col-lg-12  nav-item">
+                        <a class="nav-link nav-style" href="/calendar"><i class="far fa-calendar-alt"></i> Kalendarz</a>
+                    </li>
+
+                    <li class="col-sm-6 col-md-4 col-lg-12 nav-item">
+                        <a class="nav-link nav-style" href="/kalkulatory"><i
+                                class="fas fa-calculator"></i>Kalkulatory</a>
+                    </li>
+
+                    <li class="col-sm-6 col-md-4 col-lg-12  nav-item">
+                        <a class="nav-link nav-style" href="/goals"><i class="far fa-dot-circle"></i>Cele</a>
+                    </li>
+                    <li class="col-sm-6 col-md-4 col-lg-12  nav-item">
+                        <a class="nav-link nav-style" href="/addDimensions"><i class="fas fa-signal"></i>Pomiary
+                            ciała</a>
+                    </li>
+                    <li class="col-sm-6 col-md-4 col-lg-12 nav-item">
+                        <a class="nav-link nav-style" href="/weight"><i class="fas fa-weight"></i>Ważenie</a>
+                    </li>
+                    <li class="col-sm-6 col-md-4 col-lg-12 nav-item">
+                        <a class="nav-link nav-style" href="/training"><i class="fas fa-stopwatch"></i>Trening</a>
+                    </li>
+                    <li class="col-sm-6 col-md-4 col-lg-12 nav-item">
+                        <a class="nav-link nav-style" href="/diet"><i class="fas fa-utensils"></i>Dieta</a>
+                    </li>
+                    <li class="col-sm-6 col-md-4 col-lg-12 nav-item">
+                        <a class="nav-link nav-style" href="/exercise"><i class="fas fa-th-list"></i>Baza ćwiczeń </a>
+                    </li>
+                    <li class="col-sm-6 col-md-4 col-lg-12 nav-item">
+                        <a class="nav-link nav-style " href="/editprofile"><i class="fas fa-user-edit"></i>Edycja
+                            profilu</a>
+                    </li>
+                    <li class=" col-6 col-sm-4 col-lg-12  nav-item">
+                        <form th:action="@{/logout}" method="post">
+                            <button class="nav-link logout nav-style" type="submit"><i class="fas fa-sign-out-alt"></i>
+                                Wyloguj
+                            </button>
+                        </form>
+                    </li>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-10">
+            <div th:if="${param.notitle}">
+                <div class="alert alert-danger alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    Tyuł nie może być pusty
+                </div>
+            </div>
+            <div class="col-12 naglowekb3 naglowek">
+                <h2><i>Kalendarz aktywności</i></h2>
+            </div>
+            <!-- Show calendar -->
+            <div class="panel panel-login ">
+                <div id='calendar' style="height: auto; overflow: auto;"></div>
+            </div>
+
+            <!-- Modal: New event -->
+            <div id="createEventModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title text-center">Zaplnuj swój trening</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="control-group">
+                                <label class="control-label">Nazwa: </label>
+                                <div class="field desc">
+                                    <input id="theTitle" class="form-control" autocomplete="off" name="title"
+                                           placeholder="nazwa" type="text" autofocus="true"/>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="control-group">
+                                <label class="control-label">Opis: </label>
+                                <div class="field desc">
+                                    <textarea class="form-control" rows="5" id="theDescription" autocomplete="off"
+                                              name="title" type="text"></textarea>
+                                    <!--<input id="theDescription" class="form-control" rows="5" autocomplete="off" name="title"-->
+                                    <!--placeholder="Opis" type="text"/>-->
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="control-group">
+                                <label class="control-label">Kolor: </label>
+                                <div class="field desc">
+                                    <select name="color" class="form-control" id="theColor">
+                                        <option value="#5C6BC0">Domyślny</option>
+                                        <option style="color:#01579B;" value="#01579B">&#9724; Ciemny Niebieski</option>
+                                        <option style="color:#4DD0E1;" value="#4DD0E1">&#9724; Turkusowy</option>
+                                        <option style="color:#4CAF50;" value="#4CAF50">&#9724; Zielony</option>
+                                        <option style="color:#FF8C00;" value="#FF8C00">&#9724; Pomarańczowy</option>
+                                        <option style="color:#FFD700;" value="#FFD700">&#9724; Żółty</option>
+                                        <option style="color:#F44336;" value="#F44336">&#9724; Czerwony</option>
+                                        <option style="color:#212121;" value="#212121">&#9724; Czarny</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br/>
+                            <div class="control-group">
+                                <label class="control-label" for="when">Czas: </label>
+                                <div class="controls controls-row" id="when" style="margin-top:5px;">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal" aria-hidden="true">Anuluj</button>
+                            <a class="btn btn-primary" id="submitButton">Zapisz</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!--Modal: Edit event-->
+            <div id="editEventModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Edytuj aktywność sportową</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="control-group">
+                                <label class="control-label" for="theTitle">Nazwa: </label>
+                                <div class="field desc">
+                                    <input class="form-control" autocomplete="off" id="modalEditTitle" autofocus="true"
+                                           name="title" placeholder="nazwa" type="text"/>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="control-group">
+                                <label class="control-label" for="theDescription">Opis: </label>
+                                <div class="field desc">
+                                    <textarea class="form-control" rows="5" id="modalEditDesc" autocomplete="off"
+                                              name="desc" type="text"></textarea>
+                                </div>
+                            </div>
+                            <br/>
+                            <div id="editEventColourGroup" class="control-group">
+                                <label class="control-label" for="theColor">Kolor: </label>
+                                <div class="field desc">
+                                    <select name="color" class="form-control" id="eventEditColour">
+                                        <option style="color:#01579B;" value="#01579B">&#9724; Ciemny Niebieski</option>
+                                        <option style="color:#4DD0E1;" value="#4DD0E1">&#9724; Turkusowy</option>
+                                        <option style="color:#4CAF50;" value="#4CAF50">&#9724; Zielony</option>
+                                        <option style="color:#FF8C00;" value="#FF8C00">&#9724; Pomarańczowy</option>
+                                        <option style="color:#FFD700;" value="#FFD700">&#9724; Żółty</option>
+                                        <option style="color:#F44336;" value="#F44336">&#9724; Czerwony</option>
+                                        <option style="color:#212121;" value="#212121">&#9724; Czarny</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br/>
+                            <div class="control-group">
+                                <label class="control-label" for="when">Czas: </label>
+                                <div class="controls controls-row" id="editWhen" style="margin-top:5px;">
+                                </div>
+                            </div>
+                            <div id="modalAuthor">
+                            </div>
+
+                            <input type="hidden" id="eventEditID"/>
+                            <input type="hidden" id="startEditTime"/>
+                            <input type="hidden" id="endEditTime"/>
+                            <br/>
+
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-danger pull-left" id="deleteButton">Usuń</a>
+                            <button class="btn" data-dismiss="modal" aria-hidden="true">Anuluj</button>
+                            <a class="btn btn-primary" id="submitEditButton">Zapisz</a>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer::footer"></div>
+    </body>
+</div>
+</html>
+
+
+<!--<style>-->
+<!--@media print {-->
+<!--a[href]:after {-->
+<!--content: none !important;-->
+<!--}-->
+
+<!--canvas {-->
+<!--max-width: 100% !important;-->
+<!--}-->
+<!--}-->
+
+<!--.glyphicon {-->
+<!--margin-left: 4px;-->
+<!--}-->
+
+<!--canvas {-->
+<!--display: block;-->
+<!--width: 100%;-->
+<!--}-->
+<!--</style>-->

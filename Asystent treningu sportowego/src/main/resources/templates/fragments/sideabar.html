@@ -1,0 +1,52 @@
+<div class="col-12 col-lg-2 pt-0 pt-lg-5" th:fragment="sideabar" xmlns:th="http://www.w3.org/1999/xhtml"
+     xmlns:sec="http://www.w3.org/1999/xhtml">
+
+
+    <div sec:authorize="isAuthenticated()">
+        <div id="siaidbar">
+            <div class="nav nav-sidebar row navicon flex-column">
+                <li class="col-12 centersmall nav-item">
+                    <a class="nav-link nav-style float-left b-style ">Menu:</a>
+                </li>
+                <li class="col-6 col-sm-4 col-lg-12  nav-item">
+                    <a class="nav-link nav-style" href="/calendar"><i class=" far fa-calendar-alt"></i> Kalendarz</a>
+                </li>
+
+                <li class="col-6 col-sm-4 col-lg-12 nav-item">
+                    <a class="nav-link nav-style" href="/kalkulatory"><i class=" fas fa-calculator"></i>Kalkulatory</a>
+                </li>
+
+                <li class="col-6 col-sm-4 col-lg-12  nav-item">
+                    <a class="nav-link nav-style" href="/goals"><i class=" far fa-dot-circle"></i>Cele</a>
+                </li>
+                <li class="col-6 col-sm-4 col-lg-12  nav-item">
+                    <a class="nav-link nav-style" href="/addDimensions"><i class=" fas fa-signal"></i>Pomiary ciała</a>
+                </li>
+                <li class="col-6 col-sm-4 col-lg-12  nav-item">
+                    <a class="nav-link nav-style" href="/weight"><i class=" fas fa-weight"></i>Ważenie</a>
+                </li>
+                <li class="col-6  col-sm-4 col-lg-12 nav-item">
+                    <a class="nav-link nav-style" href="/training"><i class=" fas fa-stopwatch"></i>Trening</a>
+                </li>
+                <li class="col-6 col-sm-4 col-lg-12 nav-item">
+                    <a class="nav-link nav-style" href="/diet"><i class=" fas fa-utensils"></i>Dieta</a>
+                </li>
+                <li class="col-6 col-sm-4 col-lg-12 nav-item">
+                    <a class="nav-link nav-style" href="/exercise"><i class=" fas fa-th-list"></i>Baza ćwiczeń</a>
+                </li>
+                <li class="col-6 col-sm-4 col-lg-12 nav-item">
+                    <a class="nav-link nav-style " href="/editprofile"><i class=" fas fa-user-edit"></i>Edycja
+                        profilu</a>
+                </li>
+
+                <li class=" col-6 col-sm-4 col-lg-12  nav-item">
+                    <form th:action="@{/logout}" method="post">
+                        <button class="nav-link logout nav-style" type="submit"><i class=" fas fa-sign-out-alt"></i>
+                            Wyloguj
+                        </button>
+                    </form>
+                </li>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Mój Trening</title>
+    <script type="text/css" th:src="@{css/js/bottom.css}" src="../static/css/js/bottom.css"></script>
+    <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{css/js/main.js}" src="../static/css/js/main.js"></script>
+</head>
+<body>
+
+<div layout:fragment="content" class="mySpace col-12 col-lg-10">
+    <div class="col-12 pt-3 pb-2 naglowek">
+        <h2><i>Mój Trening</i></h2>
+        <!--</div>-->
+
+        <div class="col-12 row   chengelem p-3" th:if="${checktreining}">
+            <div class="col-6 "></div>
+            <div class="col-3 pt-3">
+                <a class="col-12 btn btn-sm  d-inline-block btn-primary" th:href="@{cheange}">zmień <i
+                        class="fas fa-exchange-alt pull-left"></i></a>
+            </div>
+
+            <div class="col-3  pt-3">
+                <a class="col-12 btn btn-sm  d-inline-block btn-primary">drukuj <i
+                        class="fas fa-print pull-left"></i></a>
+            </div>
+        </div>
+
+        <div th:if="${userhaveplain==true}">
+            <div class="col-12 quwstionarebg row">
+                <h5 class="p-2 col-12 text-center"><i>Wypełnij krótką enkietę</i></h5>
+                <h6 class="p-3"></h6>
+                <form th:action="@{/training}" th:object="${training}" method="post">
+
+                    <div class="col-12 col-lg-4 float-left d-inline-block">
+                        <label class="question  col-12">Cel treningu: </label>
+                        <div class="field col-12 desc" th:each="i : ${#numbers.sequence(0, celtreningu.size()-1)}">
+                            <input required type="radio" class="" th:text="${celtreningu.get(i)}"
+                                   th:value="${celtreningu.get(i)}"
+                                   th:field="*{cel}">
+
+                        </div>
+                    </div>
+                    <div class="col-12  col-lg-4 float-left d-inline-block">
+                        <label class="question col-12 ">Stopień zawansowania: </label>
+                        <div class="field col-12 desc"
+                             th:each="i : ${#numbers.sequence(0, stopienzawansowania.size()-1)}">
+                            <input required type="radio" class="" th:text="${stopienzawansowania.get(i)}"
+                                   th:value="${stopienzawansowania.get(i)}" th:field="*{stopienzaawansowania}">
+
+                        </div>
+                    </div>
+
+                    <div class="col-12  col-lg-4  float-left d-inline-block">
+                        <label class="question col-12">Ile treningów w tygodniu: </label>
+                        <div class="field col-12 desc"
+                             th:each="i : ${#numbers.sequence(0, ilosctreningow.size()-1)}">
+                            <input required type="radio" class="" th:text="${ilosctreningow.get(i)}"
+                                   th:value="${ilosctreningow.get(i)}" th:field="*{ilosctreningow}">
+
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4 float-left pt-3 d-inline-block ">
+                        <label class="question col-12">Ilość czasu na jeden trening: </label>
+                        <div class="field col-12 desc" th:each="i : ${#numbers.sequence(0, iloscczasu.size()-1)}">
+                            <input required type="radio" class="" th:text="${iloscczasu.get(i)}"
+                                   th:value="${iloscczasu.get(i)}"
+                                   th:field="*{iloscczasu}">
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 float-right p-3">
+                        <div class=" ">
+                            <input type="submit"
+                                   value="Zapisz" class="col-3  float-right btn btn-success"/>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+
+        <div th:if="${checktreining}">
+            <div class="trainingtable">
+                <div class="card">
+                    <table class="table ">
+                        <tbody>
+                        <tr class="onedayexercise" th:each="treningday:${trninddays}">
+                            <div class="onedayexercise">
+                                <div class=" dzientygodnia"
+                                     th:text="${treningday.getDzientygodnia()}"></div>
+                                <div class="col-12 row">
+                                    <div class="col-3 nazwacwiczenia"
+                                         th:text="${treningday.getNazwacwiczenia()}"></div>
+
+                                    <div class="opiswyonywania p-2 col-6">
+                                        <div th:text="${treningday.getOpis()}"></div>
+                                        <div class="col-12 pt-3">
+                                            <a class="col-12  ytshere bg-dark" th:target="_blank"
+                                               th:href="@{'http://www.youtube.com/results?search_query='+ ${treningday.getNazwacwiczenia()}}"><i
+                                                    class="fab iconyt fa-youtube"></i>Zobacz</a></div>
+
+                                    </div>
+
+
+                                    <div class=" col-3 exerciseinfo  pt-3 pb-3 ">
+                                        <div class=" col-12 nameinfo d-inline-block"> Ilość seri:
+                                            <div class=" d-inline-block iloscseri"
+                                                 th:text="${treningday.getIloscseri()}"></div>
+                                        </div>
+                                        <div class=" col-12 nameinfo d-inline-block">Ilość powtórzeń:
+                                            <div class=" d-inline-block iloscpowtorzen "
+                                                 th:text="${treningday.getIloscpowtorzen()}"></div>
+                                        </div>
+
+
+                                        <!--<div class=" col-12 nameinfo  noteBtn d-inline-block">-->
+                                        <a th:href="@{addanote/(id=${treningday.id})}"
+                                           class="far fa-sticky-note  btn-sm  btn-primary noteBtn"></a>
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+            <div class="myFormNote">
+                <form th:action="@{addanote}" method="post">
+                    <div class="modal fade" id="noteModal" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="col-12 modal-title titnenote text-center" id="exampleModalLabel">
+                                        Notatka</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="">
+
+                                    <div class=" col-12 form-group">
+                                        <textarea type="text" class="form-control note" id="notatka"
+                                                  name="notatka"> </textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Anuluj
+                                    </button>
+                                    <input type="submit" class="btn btn-sm btn-primary" value="Zapisz"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+
+
+        <!--<td class="col-12 " th:each="i:${#numbers.sequence(0, lista1.size()-1)}" th:text="${lista1.get(i)}"></td>-->
+        <!--<td class="col-12 " th:text="${lista0.get(1)}"><td th:text="${lista0.get(2)}"></td><td th:text="${lista0.get(3)}"></td></td>-->
+        <!--<td class="col-12 " th:text="${lista1.get(0)}"></td>-->
+        <!--<td class="col-12 " th:text="${lista2.get(0)}"></td>-->
+
+
+        <!--<div class=" nazwa row col-3 " th:each="i:${#numbers.sequence(0, lista0.size()-1)}">-->
+        <!--<div th:if="${userhaveplain}">-->
+        <!--<div class="col-12 " th:text="${lista0.get(i)}"></div>-->
+        <!--</div>-->
+
+        <!--</div>
+
+
+    <!--<div class="col-12">-->
+        <!--<div class="row">-->
+
+        <!--<div class="d-block  one-exercise nazwa row col-3 " th:each="i:${#numbers.sequence(0, lista1.size()-1)}">-->
+        <!--<p>Nazwa ćwiczenia:-->
+        <!--<div class="col-12 " th:text="${lista1.get(i)}"></div>-->
+        <!--</p>-->
+
+        <!--</div>-->
+
+        <!--<div class="d-block one-exercise seria row  col-3 " th:each="i:${#numbers.sequence(0, lista2.size()-1)}">-->
+        <!--<p> Ilość seri:-->
+        <!--<div class="col-12 " th:text="${lista2.get(i)}"></div>-->
+        <!--</p>-->
+        <!--&lt;!&ndash;<div class="col-12 name-exercise  " th:text="${cwiczneie}"></div>&ndash;&gt;-->
+        <!--</div>-->
+
+
+        <!--<div class="d-block one-exercise iloscpow row col-3 " th:each="i:${#numbers.sequence(0, lista3.size()-1)}">-->
+        <!--<p> Ilość powtórzeń-->
+        <!--<div class="col-12 " th:text="${lista3.get(i)}"></div>-->
+        <!--</p>-->
+        <!--&lt;!&ndash;<div class="col-12 name-exercise  " th:text="${cwiczneie}"></div>&ndash;&gt;-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>
+</body>
+</html>
